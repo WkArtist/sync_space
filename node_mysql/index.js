@@ -9,6 +9,7 @@
 // adminServ.updateAdmin(3, {
 //     loginId: 'wwwwwwwww'
 // })
-
-require('./models/relation');
-require('./mock/mockStudent');
+// require('./models/sync');
+// require('./models/relation');
+// require('./mock/mockStudent');
+// require('./mock/mockClass');
