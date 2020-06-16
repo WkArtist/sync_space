@@ -17,7 +17,7 @@ const Student = sequelize.define('Student', {
     mobile: {
         type: DataTypes.STRING(11),
         allowNull: false
-    }
+    },
 }, {
     createdAt: false,
     updatedAt: false,
