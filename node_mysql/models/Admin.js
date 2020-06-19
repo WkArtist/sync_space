@@ -9,10 +9,6 @@ const Admin = sequelize.define('Admin', {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    }
 }, {
     createdAt: false,
     updatedAt: false

@@ -10,9 +10,9 @@ const Student = sequelize.define('Student', {
     birthday: {
         type: DataTypes.DATE,
         allowNull: false,
-        get() { //访问器
-            return this.getDataValue("birthday").getTime()
-        }
+        // get() { //访问器
+        //     return this.getDataValue('birthday').getTime()
+        // }
     },
     age: {
         type: DataTypes.VIRTUAL,

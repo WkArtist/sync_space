@@ -15,13 +15,14 @@ app.use(express.urlencoded({extended: true}))
 //解析 application/json格式的请求体
 app.use("*", express.json())
 
-app.post("/api/student", (req, res) => {
-  console.log(req.body);
-})
+// 处理api的请求
+app.use("/api/student", require('./api/student'));
+
+app.use("/api/admin", require('./api/admin'))
 
 // 处理错误的中间件
 app.use("*", require("./errorMiddleware"))
 
-app.listen(9528, () => {
-    console.log('server listen on 9528')
+app.listen(9529, () => {
+    console.log('server listen on 9529')
 })
