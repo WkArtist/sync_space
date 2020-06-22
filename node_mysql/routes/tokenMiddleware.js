@@ -1,9 +1,11 @@
 const {getErr} = require("./getSendResult");
 const {pathToRegexp} = require('path-to-regexp')
-const cryptor = require('../util/crypt')
+// const cryptor = require('../util/crypt')
+const jwt = require("./jwt")
 const needTokenApi = [
     {method: "POST", path: "/api/student/"},
-    {method: "PUT", path: "/api/student/:id"}
+    {method: "PUT", path: "/api/student/:id"},
+    {method: "GET", path: "/api/admin/whoami"}
 ]
 
 //用于解析token
@@ -16,24 +18,41 @@ module.exports = (req, res, next) => {
         next();
         return;
     }
-
-    let token = req.cookies.token;
-    if (!token) {
-        // 从header的authorization中获取
-        token = req.headers.authorization;
-    }
-    if (!token) {
-        // 没有认证
+    const result = jwt.verify(req);
+    console.log(result)
+    if (result) {
+        //认证通过
+        req.userId = result.id;
+        next();
+    } else {
+        //认证失败
         handleNoToken(req, res, next);
-        console.log('认证没有通过')
-        return;
     }
-    const userId = cryptor.decrypt(token);
-    console.log(userId)
-    req.userId = userId;//将解密后的userId保存起来
-    //验证token
-    console.log('认证通过')
-    next();
+    // let token = req.cookies.token;
+    // if (!token) {
+    //     // 从header的authorization中获取
+    //     token = req.headers.authorization;
+    // }
+    // if (!token) {
+    //     // 没有认证
+    //     handleNoToken(req, res, next);
+    //     console.log('认证没有通过')
+    //     return;
+    // }
+    // const userId = cryptor.decrypt(token);
+    // console.log(userId)
+    // req.userId = userId;//将解密后的userId保存起来
+    // //验证token
+    // console.log('认证通过')
+
+    // if (req.session.login)
+    // console.log(req.session)
+    // if (req.session.loginUser) {
+    //     //说明已经登陆过了
+    //     next()
+    // } else {
+    //     handleNoToken(req, res, next);
+    // }
 }
 
 //处理没有认证的过程

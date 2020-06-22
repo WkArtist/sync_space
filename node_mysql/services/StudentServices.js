@@ -82,8 +82,9 @@ exports.getStudentById = async function (id) {
     const result = await Student.findByPk(id);
     if (result) {
         return result.toJSON();
+    } else {
+        return null;
     }
-    return null;
 }
 
 exports.getStudents = async function (page = 1,limit = 10,sex=-1,name) {
