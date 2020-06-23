@@ -11,7 +11,7 @@ router.post('/login', asyncHandler(async (req, res) => {
     const result = await adminServ.login(req.body.loginId, req.body.loginPwd);
     if (result) {
         let value = result.id;
-        value = cryptor.encrypt(value.toString());
+        // value = cryptor.encrypt(value.toString());
         //登录成功
         jwt.publish(res, undefined, {id: value});
         //使用session控制登录
