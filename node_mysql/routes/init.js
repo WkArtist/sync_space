@@ -4,13 +4,18 @@ const cors = require("cors");
 const app = express();
 const path = require('path');
 const staticRoot = path.resolve(__dirname, "../public");
-const history = require('connect-history-api-fallback');
-app.use(history())
+
+// const history = require('connect-history-api-fallback');
+// app.use(history())
 
 // app.use(session({
 //     secret: "wk",
 //     name: 'sessionId'
 // }));
+
+
+//图片防盗链 
+app.use(require('./imgProtectMid'))
 
 //下面这段代码的作用：
 //请求时，会根据请求路径（req.path），从指定的目录中寻找是否存在该文件，
@@ -45,6 +50,9 @@ app.use(
 const cookieParser = require('cookie-parser')
 app.use(cookieParser())
 
+//代理
+app.use(require('./proxyMid'))
+
 // 应用token中间件
 app.use(require('./tokenMiddleware'))
 
@@ -59,9 +67,11 @@ app.use(require('./apiLoggerMid'))
 
 // 处理api的请求
 app.use("/api/student", require('./api/student'));
-
 app.use("/api/admin", require('./api/admin'))
 app.use("/api/upload", require("./api/upload"))
+
+//处理对下载资源的请求
+app.use("/res", require("./api/download"))
 
 // 处理错误的中间件
 app.use("*", require("./errorMiddleware"))

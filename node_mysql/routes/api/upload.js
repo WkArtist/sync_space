@@ -2,6 +2,8 @@ const express = require('express')
 const router = express.Router()
 const multer = require("multer")
 const path = require("path")
+const fs = require('fs')
+const jimp = require("jimp");
 
 //没有文件后缀
 // const upload = multer({
@@ -10,7 +12,11 @@ const path = require("path")
 //自定义文件命名与后缀
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, path.resolve(__dirname, "../../public/upload"));
+        const uploadPath = path.resolve(__dirname, "../../public/origin")
+        if (!fs.existsSync(uploadPath)) {
+            fs.mkdirSync(uploadPath)
+        }
+        cb(null, uploadPath);
     },
     filename: function (req, file, cb) {
         //时间戳-6位随机字符，文件后缀
@@ -30,22 +36,50 @@ const upload = multer({
     fileFilter(req, file, cb) {
         //验证文件后缀名
         const extname = path.extname(file.originalname);
-        const whitelist = [".jpg",".gif","png"];
+        const whitelist = [".jpg",".gif",".png"];
         if (whitelist.includes(extname)) {
-            cb(bull, true)
+            cb(null, true)
         } else {
             cb(new Error(`your ext name of ${extname} is not support`))
         }
     }
 })
 
-router.post("/", upload.single("img"), (req, res) => {
+const waterPath = path.resolve(__dirname, "../../public/img/logo.png");
+router.post("/", upload.single("img"), async (req, res) => {
     const url = `/upload/${req.file.filename}`;
+    const newPath = path.resolve(__dirname, "../../public/upload", req.file.filename);
+    //加水印
+    await mark(waterPath, req.file.path, newPath)
     res.send({
         code: 0,
         msg: "",
         data: url
     })
 })
+
+//给一张图片加水印
+async function mark(waterFile, originFile, targetFile, proportion=10, marginProportion=0.02) {
+    const [water, origin] = await Promise.all([
+        jimp.read(waterFile),
+        jimp.read(originFile)
+    ]);
+    //对水印图片进行缩放
+    const curProportion = origin.bitmap.width/water.bitmap.width;
+    water.scale(curProportion/proportion);
+
+    //计算位置
+    const right = origin.bitmap.width * marginProportion;
+    const bottom = origin.bitmap.height * marginProportion;
+    const x = origin.bitmap.width - right - water.bitmap.width;
+    const y = origin.bitmap.height - bottom - water.bitmap.height;
+
+    //写入水印
+    origin.composite(water, x, y, {
+        mode: jimp.BLEND_SOURCE_OVER,
+        opacitySource: 0.3
+    })
+    await origin.write(targetFile);
+}
 
 module.exports = router;
