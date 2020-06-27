@@ -21,7 +21,7 @@ app.use(require('./imgProtectMid'))
 //请求时，会根据请求路径（req.path），从指定的目录中寻找是否存在该文件，
 //如果存在，直接响应文件，而不再移交给后面的中间件
 //如果不存在文件，则直接移交给后续的中间件处理
-app.use("/",express.static(staticRoot))
+app.use("/", express.static(staticRoot))
 
 //处理跨域
 const whiteList = ["null"];
@@ -34,7 +34,7 @@ app.use(
                 return
             }
             // if (whiteList.includes(origin)) {
-                callback(null, origin);
+            callback(null, origin);
             // } else {
             //     callback(new Error("not allowed"))
             // }  
@@ -57,7 +57,7 @@ app.use(require('./proxyMid'))
 app.use(require('./tokenMiddleware'))
 
 // 解析 application/x-www-form-urlencoded 格式的请求体
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 
 //解析 application/json格式的请求体
 app.use("*", express.json())
@@ -69,6 +69,7 @@ app.use(require('./apiLoggerMid'))
 app.use("/api/student", require('./api/student'));
 app.use("/api/admin", require('./api/admin'))
 app.use("/api/upload", require("./api/upload"))
+app.use("/api/md", require('./api/md'));
 
 //处理对下载资源的请求
 app.use("/res", require("./api/download"))
