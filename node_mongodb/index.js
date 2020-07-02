@@ -22,5 +22,17 @@ async function test() {
     // const result = await Operation.find().limit(1).populate("userid","age")
 
     // console.log(result)
+
+    const user1 = await User.findById("5ed093872e3da2b654983478");
+    const user2 = await User.findById("5ed093872e3da2b654983478");
+    user1.name = "wk3";
+    user1.loginId ="wk3";
+    await user1.save();
+
+    user2.name = "wk4";
+    user2.loginId = "wk4";
+    await user2.save();
+
+    console.log(user1, user2)
 }
 test(); 
