@@ -1,24 +1,47 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-function ChildA(props, context) {
-    return <div>
-        <h1>ChildA</h1>
-        <h2>a: {context.a}, b: {context.b}</h2>
-        <ChildB />
-    </div>
+const types = {
+    a: PropTypes.number,
+    b: PropTypes.string.isRequired,
+    onChangeA: PropTypes.func
 }
-ChildA.contextTypes = {
-    a: PropTypes.number
+
+class ChildA extends React.Component {
+    static contextTypes = types
+    constructor(props, context) {
+        super(props, context)
+    }
+
+    static childContextTypes = {
+        a: PropTypes.number,
+        c: PropTypes.string
+    }
+
+    getChildContext() {
+        return {
+            a: 456,
+            c: "hello"
+        }
+    }
+
+    render() {
+        return <div>
+            <h1>ChildA</h1>
+            <h2>a: {this.context.a}, b: {this.context.b}</h2>
+            <ChildB />
+        </div>
+    }
 }
+
 
 class ChildB extends React.Component {
     /**
      * 声明需要使用那些上下文中的数据
      */
     static contextTypes = {
-        a: PropTypes.number,
-        onChangeA: PropTypes.func
+        ...types,
+        c: PropTypes.string
     }
 
     constructor(props, context) {
@@ -29,6 +52,7 @@ class ChildB extends React.Component {
     render() {
         return <p>
             ChildB: {this.context.a}
+            ,c: {this.context.c}
             <button onClick={() => {
                 this.context.onChangeA(this.context.a + 1)
             }}>child click</button>
@@ -40,11 +64,7 @@ export default class OldContext extends Component {
     /**
      * 约束上下文中数据的类型
      */
-    static childContextTypes = {
-        a: PropTypes.number,
-        b: PropTypes.string.isRequired,
-        onChangeA: PropTypes.func
-    }
+    static childContextTypes = types
 
     state = {
         a: 123,
