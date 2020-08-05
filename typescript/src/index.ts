@@ -1,59 +1,32 @@
 
-type Deck = NormalCard[]
-type Color = "♥" | "♠" | "♣" | "♦";
-type NormalCard = {
-    color: Color
-    mark: number
+// interface Condition {
+//     (n: number): boolean
+// }
+
+// function sum(numbers: number[], callBack: Condition) {
+//     let s = 0;
+//     numbers.forEach(n => {
+//         if (callBack(n)) {
+//             s += n;
+//         }
+//     })
+//     return s;
+// }
+
+// const res = sum([1, 2, 3, 4, 5, 6], (n) => {
+//     return n % 2 !== 0
+// })
+
+// console.log(res)
+
+interface A {
+    T1: string
 }
 
-function createDeck(): Deck {
-    let result: Deck = [];
-    for (let i = 0; i < 13; i++) {
-        result.push({
-            color: '♠',
-            mark: i + 1
-        })
-        result.push({
-            color: "♣",
-            mark: i + 1
-        })
-        result.push({
-            color: "♥",
-            mark: i + 1
-        })
-        result.push({
-            color: "♦",
-            mark: i + 1
-        })
-    }
-    return result;
+interface B {
+    T2: number
 }
 
-function printDeck(deck: Deck): string {
-    let result: string = '\n'
-    deck.forEach((ele, index) => {
-        if (ele.mark < 11) {
-            let str: string = ele.color + ele.mark + '\t'
-            result += str
-        }
-        if (ele.mark === 11) {
-            let str: string = ele.color + "J" + '\t'
-            result += str
-        }
-        if (ele.mark === 12) {
-            let str: string = ele.color + "Q" + '\t'
-            result += str
-        }
-        if (ele.mark === 13) {
-            let str: string = ele.color + "K" + '\t'
-            result += str
-        }
-        if ((index + 1) % 6 === 0) {
-            result += '\n'
-        }
-    })
-    return result;
+interface C extends A, B {
+    T3: boolean
 }
-
-const deck = createDeck()
-console.log(printDeck(deck))

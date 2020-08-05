@@ -6,7 +6,10 @@
       "es2016"
     ],
     "outDir": "./dist", //编译结果输出目录
-    "strictNullChecks": true //更加严格的空字符串检查
+    "strictNullChecks": true, //更加严格的空字符串检查
+    "noImplicitUseStrict": true, //编译的结果不用添加"use strict"
+    "esModuleInterop": true, //启用es模块化交互非es模块导出
+    "moduleResolution": "node" //寻找文件时使用node解析策略
   },
   "include": [ //要编译的文件夹
     "./src"

@@ -1,8 +1,4 @@
-// let name: string | undefined;
-// function printMenu(): void {
-//     console.log('1')
-// }
-let u;
-function getUsers() {
-    return [];
-}
+Object.defineProperty(exports, "__esModule", { value: true });
+const funcs_1 = require("./funcs");
+const deck = funcs_1.createDeck();
+console.log(funcs_1.printDeck(deck));

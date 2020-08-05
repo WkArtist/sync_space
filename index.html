@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function asyncFun(delay, callback) {
+            setTimeout(() => {
+                callback()
+            }, delay)
+        }
+
+        function promisefly(fun) {
+            // return fun
+            return function (...arg) {
+                return new Promise((resolve) => {
+                    fun(...arg, () => {
+                        console.log()
+                        resolve()
+                    })
+                })
+            }
+        }
+
+        const resFun = promisefly(asyncFun)
+
+        async function asyncTest() {
+            await resFun(3000, () => {
+                console.log('one')
+            })
+            await resFun(4000, () => {
+                console.log('two')
+            })
+            console.log('three')
+        }
+        asyncTest()
+    </script>
+</body>
+
+</html>
