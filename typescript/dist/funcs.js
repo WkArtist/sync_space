@@ -7,20 +7,38 @@ function createDeck() {
     const color = Object.values(enum_1.Color);
     for (const m of mark) {
         for (const c of color) {
-            result.push({
+            const card = {
                 color: c,
-                mark: m
-            });
+                mark: m,
+                getString() {
+                    return this.color + this.mark;
+                }
+            };
+            result.push(card);
         }
     }
+    let joker = {
+        type: "small",
+        getString() {
+            return "jo";
+        }
+    };
+    result.push(joker);
+    let Joker = {
+        type: "big",
+        getString() {
+            return "Jo";
+        }
+    };
+    result.push(Joker);
     return result;
 }
 exports.createDeck = createDeck;
 function printDeck(deck) {
     let result = '\n';
     deck.forEach((ele, index) => {
-        let str = ele.color + ele.mark + '\t';
-        result += str;
+        let str = ele.getString();
+        result += str + "\t";
         if ((index + 1) % 6 === 0) {
             result += '\n';
         }
