@@ -16,7 +16,7 @@ export function ChessComp({ type, onClick }: IPops) {
     }
     return (
         <div className="chess" onClick={() => {
-            if (type === ChessType.red && onClick) {
+            if (type === ChessType.none && onClick) {
                 onClick();
             }
         }}>
