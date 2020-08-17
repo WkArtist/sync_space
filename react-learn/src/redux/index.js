@@ -1,4 +1,4 @@
-import { createStore, bindActionCreators } from "redux"
+import { createStore, combineReducers, bindActionCreators } from "redux"
 import reducer from './reducer'
 import * as numberActions from "./action/number-action"
 import { createAddUserAction } from './action/usersAction'
@@ -16,9 +16,8 @@ console.log(store.getState())
 // console.log(store.getState())// 得到仓库中当前的数据
 
 const unlisten = store.subscribe(() => {
-    console.log(store.getState())
+    console.log('监听器', store.getState())
 })
-unlisten();//取消监听
 
 store.dispatch(createAddUserAction({
     id: uuid(),
@@ -26,3 +25,4 @@ store.dispatch(createAddUserAction({
     age: 10
 }))
 // console.log(store.getState())
+
