@@ -1,8 +1,5 @@
-import { createStore, combineReducers, bindActionCreators, applyMiddleware } from "redux"
-// import reducer from './reducer'
-import * as numberActions from "./action/number-action"
-import { createAddUserAction } from './action/usersAction'
-import { v4 as uuid } from 'uuid'
+import { createStore, applyMiddleware } from "redux"
+
 import logger from 'redux-logger'
 import ReduxThunk from 'redux-thunk';
 
@@ -23,9 +20,3 @@ store.dispatch((dispatch,getState,extra) => {
         console.log(getState())
     },1000)
 })
-// store.dispatch(createAddUserAction({
-//     id: uuid(),
-//     name: "abc",
-//     age: 10
-// }))
-
