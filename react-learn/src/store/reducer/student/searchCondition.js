@@ -1,4 +1,4 @@
-import {actionTypes,change} from '../../action/student/searchCondition'
+import { actionTypes, change } from '../../action/student/searchCondition'
 const initialState = {
     key: '',
     sex: -1,
@@ -6,12 +6,14 @@ const initialState = {
     limit: 10
 }
 
-export default function (state = initialState, {type, payload}) {
-    switch(type) {
+export default function (state = initialState, { type, payload }) {
+    switch (type) {
         case actionTypes.change:
             return {
                 ...state,
                 ...payload
             }
+        default:
+            return state;
     }
 }

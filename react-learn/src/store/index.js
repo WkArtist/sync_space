@@ -1,5 +1,8 @@
-import { createStore } from "redux"
+import { createStore, applyMiddleware } from "redux"
 import reducer from "./reducer"
-
-const store = createStore(reducer)
+import logger from "redux-logger"
+import thunk from "redux-thunk"
+const store = createStore(reducer,
+    applyMiddleware(thunk, logger)
+)
 export default store
