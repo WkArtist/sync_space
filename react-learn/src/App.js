@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react'
 
 export default function App() {
     const [n, setN] = useState(0)
-    useEffect(() => {
-        setTimeout(() => {
-            console.log(n)
-        }, 5000)
-    })
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         console.log(n)
+    //     }, 5000)
+    // })
     return (
         <div>
             <h1>{n}</h1>
